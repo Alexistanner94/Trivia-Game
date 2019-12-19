@@ -2,6 +2,9 @@ var seconds = 25;
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
+var interval;
+var wins = 0;
+var losses = 0;
 
 quizStart();
 
@@ -44,8 +47,8 @@ function playGame() {
     triviaQuestion.append(question);
 
     for (let j = 0; j < 4; j++) {
-      console.log("questions[i]", questions[i]);
-      console.log("question", question);
+      // console.log("questions[i]", questions[i]);
+      // console.log("question", question);
       let label = $("<label class='radio-inline'>").html(
         `<input type="radio" name="${questions[i].name}" value='${questions[i].answers[j]}'> ${questions[i].answers[j]}`
       );
@@ -55,36 +58,44 @@ function playGame() {
 
     $("#quiz").append(triviaQuestion);
   }
-}
-const stopButton = $("<button>")
-  .text("Done")
-  .addClass("buttonClass");
+  const stopButton = $("<button>")
+    .text("Done")
+    .addClass("stopButton");
 
-stopButton.on("click", function() {
+  $("#quiz").append(stopButton);
+}
+
+$("#quiz").on("click", ".stopButton", function() {
   clearInterval(interval);
   addResults();
   showResults();
 });
 
-$("#quiz").append(stopButton);
-
 function addResults() {
-  let answers = $(`[name="${i}"]`);
+  let answers = $(`input:checked`);
+  console.log("answers", answers);
   let answered = false;
   for (answer of answers) {
-    if ($(answer).is(":checked")) {
-      answered = true;
-      if ($(answer).val() === questions[i].correctAnswer) {
-        wins++;
-      } else {
-        losses++;
-      }
+    const question = questions.find(question => question.name === answer.name);
+    // if ($(answer).is(":checked")) {
+    console.log("question", question);
+    console.log("answer", answer);
+    answered = true;
+    if (answer.value === question.correctAnswer) {
+      console.log("correct");
+      wins++;
+    } else {
+      console.log("wrong");
+      losses++;
     }
+    // }
   }
 
-  if (!answered) {
-    unanswered++;
-  }
+  unanswered = questions.length - answers.length;
+
+  // if (!answered) {
+  //   unanswered++;
+  // }
 }
 
 function showResults() {
@@ -96,10 +107,10 @@ function showResults() {
     .text("You're Done!!")
     .css("font-size", "30px");
   const correctDisplay = $("<p>")
-    .text(`Wins: ${correct}`)
+    .text(`Wins: ${wins}`)
     .css("text-align", "center");
   const incorrectDisplay = $("<p>")
-    .text(`Losses: ${incorrect}`)
+    .text(`Losses: ${losses}`)
     .css("text-align", "center");
   const unansweredDisplay = $("<p>")
     .text(`Unanswered: ${unanswered}`)
@@ -107,5 +118,5 @@ function showResults() {
 
   resultsDiv.append(h1Tag, correctDisplay, incorrectDisplay, unansweredDisplay);
 
-  $("#game").append(resultsDiv);
+  $("#quiz").append(resultsDiv);
 }
