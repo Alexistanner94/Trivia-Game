@@ -11,6 +11,7 @@ quizStart();
 function quizStart() {
   const startButton = $("<button>")
     .text("Start")
+    .css("width", "50%")
     .addClass("buttonClass")
     .on("click", function() {
       playGame();
@@ -21,7 +22,7 @@ function quizStart() {
 function playGame() {
   $("#quiz").empty();
 
-  var timer = $("<div>").text(`You've got ${seconds} seconds remaining... `);
+  var timer = $("<div>").text(`You've got ${seconds} seconds remaining!`);
 
   $("#quiz").append(timer);
 
@@ -33,7 +34,7 @@ function playGame() {
       showResults();
     } else {
       seconds--;
-      timer.text(`You've got ${seconds} seconds remaining... "`);
+      timer.text(`You've got ${seconds} seconds remaining!`);
     }
   }, 1000);
 
@@ -82,10 +83,10 @@ function addResults() {
     console.log("answer", answer);
     answered = true;
     if (answer.value === question.correctAnswer) {
-      console.log("correct");
+      // console.log("correct");
       wins++;
     } else {
-      console.log("wrong");
+      // console.log("wrong");
       losses++;
     }
     // }
@@ -105,7 +106,7 @@ function showResults() {
 
   const h1Tag = $("<h1 class='title'>")
     .text("You're Done!!")
-    .css("font-size", "30px");
+    .css("font-size", "60px");
   const correctDisplay = $("<p>")
     .text(`Wins: ${wins}`)
     .css("text-align", "center");
