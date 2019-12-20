@@ -1,6 +1,6 @@
 # Trivia-Game
 
-![Screenshot](pirate.png)
+![alt text](assets/images/pirate.png "Description goes here")
 
 "Who lives in a pineapple under the sea?"
 
